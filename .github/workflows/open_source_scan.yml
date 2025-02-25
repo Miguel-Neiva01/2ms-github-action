@@ -24,7 +24,7 @@ jobs:
             for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
             git config --global --add safe.directory '*' 
-            docker run -v $(pwd)/repos:/repos --entrypoint /bin/bash checkmarx/2ms:latest -c "chown -R $(whoami):$(whoami) /repos/$(basename "$repo_dir") && git config --global --add safe.directory /repos/$(basename "$repo_dir") && /usr/bin/git /repos/$(basename "$repo_dir") --config /repos/$(basename "$repo_dir")/.2ms.yml" > results/$(basename "$repo_dir").sarif
+            docker run -v $(pwd)/repos:/repos --entrypoint /bin/bash checkmarx/2ms:latest -c "chown -R root:root /repos/$(basename "$repo_dir") && git config --global --add safe.directory /repos/$(basename "$repo_dir") && /usr/bin/git /repos/$(basename "$repo_dir") --config /repos/$(basename "$repo_dir")/.2ms.yml" > results/$(basename "$repo_dir").sarif
             done
 
         - name: Upload SARIF's results
