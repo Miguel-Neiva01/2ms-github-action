@@ -13,15 +13,13 @@ jobs:
           run: |
             mkdir -p repos
             for repo in $(jq -r '.projects[]' repos.json); do
-            target="repos/$(basename "$repo")"
+            target="repos/$(basename "$repo" .git)"
             echo "Cloning $repo into $target"
             git clone --depth=1 "$repo" "$target"
             done
 
         - name: Run 2ms Scan
           run: |
-            cd repos
-            ls
             git config --global safe.directory '*'
             mkdir -p results
             echo "Running 2ms for" 
