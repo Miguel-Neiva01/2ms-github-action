@@ -20,7 +20,7 @@ jobs:
 
         - name: Run 2ms Scan
           run: |
-            cd /repos
+            cd repos
             ls
             git config --global safe.directory '*'
             mkdir -p results
