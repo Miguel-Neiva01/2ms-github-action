@@ -24,7 +24,7 @@ jobs:
             for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
             git config --global --add safe.directory '*' 
-                docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/$(basename "$repo_dir")" > results/$(basename "$repo_dir").sarif --report-path /repos/$(basename "$repo_dir")/results.sarif
+                docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/$(basename "$repo_dir") > results/$(basename "$repo_dir").sarif --report-path /repos/$(basename "$repo_dir")/results.sarif
             done
 
         - name: Upload SARIF's results
