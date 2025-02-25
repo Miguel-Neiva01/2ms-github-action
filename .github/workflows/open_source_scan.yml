@@ -23,7 +23,7 @@ jobs:
             mkdir -p results
             for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
-            docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest /bin/sh -c "2ms scan /repos/$(basename "$repo_dir")" > results/$(basename "$repo_dir").sarif
+            docker run -v $(pwd)/repos:/repo -t checkmarx/2ms:latest git /repo/$(basename "$repo_dir") --report-path /repo/$(basename "$repo_dir")/results.sarif 
             done
 
         - name: Upload SARIF's results
