@@ -25,7 +25,7 @@ jobs:
             docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/$(basename "$repo_dir") --config /repos/$(basename "$repo_dir")/.2ms.yml > "results/$(basename "$repo_dir").sarif"
             done
 
-        - name: Upload SARIF results
+        - name: Upload SARIF's results
           uses: actions/upload-artifact@v4
           with:
             name: sarif-results
