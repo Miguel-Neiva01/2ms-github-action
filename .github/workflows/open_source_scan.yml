@@ -16,14 +16,14 @@ jobs:
             target="repos/$(basename "$repo")"
             echo "Cloning $repo into $target"
             git clone --depth=1 "$repo" "$target"
+            git -C "$target" config --global --add safe.directory "$target"
             done
 
         - name: Run 2ms Scan
           run: |
             mkdir -p results
             for repo_dir in repos/*; do 
-            echo "Running 2ms for $repo_dir"
-            git config --global --add safe.directory '*' 
+            echo "Running 2ms for $repo_dir" 
                 docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/$(basename "$repo_dir") > results/$(basename "$repo_dir").sarif --report-path /repos/$(basename "$repo_dir")/results.sarif
             done
 
