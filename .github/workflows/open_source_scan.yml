@@ -20,11 +20,11 @@ jobs:
 
         - name: Run 2ms Scan
           run: |
-            git config --global --add safe.directory /repos/2ms.git
             for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
-            docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/$(basename "$repo_dir") --config /repos/$(basename "$repo_dir")/.2ms.yml > "results/$(basename "$repo_dir").sarif"
-            done
+            git config --global --add safe.directory /repos/2ms.git
+            docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/$(basename "$repo_dir") --config /repos/$(basename "$repo_dir")/.2ms.yml  "results/$(basename "$repo_dir").sarif"
+            done>
 
         - name: Upload SARIF's results
           uses: actions/upload-artifact@v4
