@@ -24,7 +24,7 @@ jobs:
             echo "Running 2ms for $repo_dir"
             git config --global --add safe.directory /repos/2ms.git
             docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/$(basename "$repo_dir") --config /repos/$(basename "$repo_dir")/.2ms.yml  "results/$(basename "$repo_dir").sarif"
-            done>
+            done
 
         - name: Upload SARIF's results
           uses: actions/upload-artifact@v4
