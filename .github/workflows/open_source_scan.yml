@@ -20,6 +20,7 @@ jobs:
 
         - name: Run 2ms Scan
           run: |
+            git config --global safe.directory '*'
             mkdir -p results
             echo "Running 2ms for" 
             docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/2ms.git 
