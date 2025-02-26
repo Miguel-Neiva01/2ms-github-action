@@ -17,12 +17,6 @@ jobs:
             echo "Cloning $repo into $target"
             git clone --depth=1 "$repo" "$target"
           done
-          
-      - name: Set git safe directory
-        run: git config --global --add safe.directory '*'
-           
-      - name: Verify git config
-        run: git config --global --list
 
       - name: Run 2ms Scan
         run: |
@@ -30,7 +24,8 @@ jobs:
           mkdir -p results
           for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
-            docker run -v "$(pwd):/repos" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --log-level debug > "results/$(basename "$repo_dir").sarif"
+            docker run -v "$(pwd):/repos" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results > "results/$(basename "$repo_dir").sarif"
+
           done
 
       - name: Upload SARIF's results
