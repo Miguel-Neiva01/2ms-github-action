@@ -31,8 +31,7 @@ jobs:
           for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
             git config --global --add safe.directory /repos/gitleaks
-            docker run --rm -v "$(pwd)/repos:/repos" checkmarx/2ms:latest bash -c "git config --global --add safe.directory /repos/$(basename "$repo_dir")"
-            docker run -v "$(pwd)/repos:/repos" checkmarx/2ms:latest git /repos/$(basename "$repo_dir") > results/$(basename "$repo_dir").sarif
+            docker run --rm -v "$(pwd)/repos:/repos" checkmarx/2ms:latest sh -c "git config --global --add safe.directory /repos/$(basename "$repo_dir") && git /repos/$(basename "$repo_dir")"
           done
 
       - name: Upload SARIF's results
