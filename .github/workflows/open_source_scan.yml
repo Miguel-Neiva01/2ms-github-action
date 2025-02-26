@@ -10,6 +10,8 @@ jobs:
           uses: actions/checkout@v4 
 
         - name: Clone Repos
+          env:
+             GITHUB_TOKEN: ${{ secrets.MY_PAT_TOKEN }}
           run: |
             mkdir -p repos
             for repo in $(jq -r '.projects[]' repos.json); do
@@ -20,10 +22,11 @@ jobs:
 
         - name: Run 2ms Scan
           run: |
+            ls repos
             git config --global safe.directory '*'
             mkdir -p results
             echo "Running 2ms for" 
-            docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repo
+            docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/2ms
             
 
         - name: Upload SARIF's results
