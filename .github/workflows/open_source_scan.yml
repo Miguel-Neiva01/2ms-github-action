@@ -31,6 +31,7 @@ jobs:
           for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
             git config --global --add safe.directory /repos/gitleaks
+            docker run --rm -v "$(pwd)/repos:/repos" checkmarx/2ms:latest bash -c "git config --global --add safe.directory /repos/$(basename "$repo_dir")"
             docker run -v "$(pwd)/repos:/repos" checkmarx/2ms:latest git /repos/$(basename "$repo_dir") > results/$(basename "$repo_dir").sarif
           done
 
@@ -39,15 +40,3 @@ jobs:
         with:
           name: sarif-results
           path: results/
-
-  secret-scanning:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Source
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Run 2ms Scan
-        run: |
-          docker run -v $(pwd):/repo checkmarx/2ms:latest git /repos --config /repos/.2ms.yml
