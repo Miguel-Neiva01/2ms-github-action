@@ -1,41 +1,53 @@
 name: '2ms Open Source Scan'
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   twoms-scan:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout
-          uses: actions/checkout@v4 
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        - name: Clone Repos
-          run: |
-            mkdir -p repos
-            for repo in $(jq -r '.projects[]' repos.json); do
+      - name: Clone Repos
+        run: |
+          mkdir -p repos
+          for repo in $(jq -r '.projects[]' repos.json); do
             target="repos/$(basename "$repo" .git)"
             echo "Cloning $repo into $target"
             git clone --depth=1 "$repo" "$target"
-            done
-
-        - name: Run 2ms Scan
-          run: |
-            ls repos
-            mkdir -p results
-            for repo_dir in repos/*; do 
-            echo "Running 2ms for $repo_dir"
-            git config --global --add safe.directory /repos/$repo_dir
-            docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/$(basename "$repo_dir") > results/$(basename "$repo_dir").sarif
-            done
-
-        - name: Upload SARIF's results
-          uses: actions/upload-artifact@v4
-          with:
-            name: sarif-results
-            path: results/
-
-
-
-
+          done
           
+      - name: Set git safe directory
+        run: git config --global --add safe.directory '*'
+           
+      - name: Verify git config
+        run: git config --global --list
 
+      - name: Run 2ms Scan
+        run: |
+          ls repos
+          mkdir -p results
+          for repo_dir in repos/*; do 
+            echo "Running 2ms for $repo_dir"
+            git config --global --add safe.directory /repos/gitleaks
+            docker run -v "$(pwd)/repos:/repos" checkmarx/2ms:latest git /repos/$(basename "$repo_dir") > results/$(basename "$repo_dir").sarif
+          done
+
+      - name: Upload SARIF's results
+        uses: actions/upload-artifact@v4
+        with:
+          name: sarif-results
+          path: results/
+
+  secret-scanning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run 2ms Scan
+        run: |
+          docker run -v $(pwd):/repo checkmarx/2ms:latest git /repos --config /repos/.2ms.yml
