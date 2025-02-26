@@ -23,7 +23,7 @@ jobs:
             git config --global safe.directory '*'
             mkdir -p results
             echo "Running 2ms for" 
-            docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/2ms
+            docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repo
             
 
         - name: Upload SARIF's results
