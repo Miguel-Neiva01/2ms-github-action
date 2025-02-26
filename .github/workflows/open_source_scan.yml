@@ -24,12 +24,10 @@ jobs:
           for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
             docker run -v "$(pwd):/repos" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results > "results/$(basename "$repo_dir").json"
-            ls -l results/
           done
 
-      - name: Get Json Artifact
+      - name: Get Json Results
         uses: actions/upload-artifact@v4
         with:
-          name: json-artifact
+          name: json-results
           path: results/
-            ls results/
