@@ -24,7 +24,7 @@ jobs:
             mkdir -p results
             for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
-            git config --global --add safe.directory '*' 
+            git config --global --add safe.directory /repos/$repo_dir
             docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/$(basename "$repo_dir") > results/$(basename "$repo_dir").sarif
             done
 
