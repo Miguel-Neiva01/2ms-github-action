@@ -20,15 +20,13 @@ jobs:
 
       - name: Run 2ms Scan
         run: |
-          ls repos
           mkdir -p results
           for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
-            docker run -v "$(pwd):/repos" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results > "results/$(basename "$repo_dir").sarif"
-
+            docker run -v "$(pwd):/repos" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results --report-path "results/$(basename "$repo_dir").json"
           done
 
-      - name: Upload SARIF's results
+      - name: Get Json Artifact
         uses: actions/upload-artifact@v4
         with:
           name: sarif-results
