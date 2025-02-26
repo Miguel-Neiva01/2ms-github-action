@@ -21,6 +21,7 @@ jobs:
       - name: Run 2ms Scan
         run: |
           mkdir -p results
+          chmod -R 777 results
           for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
             docker run -v "$(pwd):/repos" -v "$(pwd)/results:/results" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results --report-path "/results/$(basename "$repo_dir").json"

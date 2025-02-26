@@ -1,6 +1,7 @@
 {
   "projects": [
     "https://github.com/gitleaks/gitleaks.git",
+    "https://github.com/Checkmarx/2ms.git",
     "https://github.com/juice-shop/juice-shop.git",
     "https://github.com/digininja/DVWA.git",
     "https://github.com/WebGoat/WebGoat.git",
