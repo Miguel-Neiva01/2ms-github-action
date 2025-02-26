@@ -15,9 +15,13 @@ jobs:
           run: |
             mkdir -p repos
             for repo in $(jq -r '.projects[]' repos.json); do
+            git config --global --add safe.directory /repos/2ms
             target="repos/$(basename "$repo" .git)"
+            git config --global --add safe.directory /repos/2ms
             echo "Cloning $repo into $target"
+            git config --global --add safe.directory /repos/2ms
             git clone --depth=1 "$repo" "$target"
+            git config --global --add safe.directory /repos/2ms
             done
 
         - name: Run 2ms Scan
@@ -25,8 +29,11 @@ jobs:
             ls repos
             git config --global safe.directory '*'
             mkdir -p results
+            git config --global --add safe.directory /repos/2ms
             echo "Running 2ms for" 
+            git config --global --add safe.directory /repos/2ms
             docker run -v $(pwd)/repos:/repos checkmarx/2ms:latest git /repos/2ms
+            git config --global --add safe.directory /repos/2ms
             
 
         - name: Upload SARIF's results
