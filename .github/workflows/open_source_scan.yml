@@ -1,6 +1,7 @@
 name: '2ms Open Source Scan'
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   twoms-scan:
@@ -23,7 +24,7 @@ jobs:
           mkdir -p results
           for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
-            docker run -v "$(pwd):/repos" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results --report-path "/results/$(basename "$repo_dir").json" 
+            docker run -v "$(pwd):/repos" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results --report-path "results/$(basename "$repo_dir").json" 
           done
 
       - name: Get Json Results
