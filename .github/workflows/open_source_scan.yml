@@ -29,5 +29,6 @@ jobs:
       - name: Get Json Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: sarif-results
+          name: json-artifact
           path: results/
+            ls results/
