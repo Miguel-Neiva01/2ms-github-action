@@ -27,8 +27,8 @@ jobs:
             docker run -v "$(pwd):/repos" -v "$(pwd)/results:/results" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results --report-path "/results/$(basename "$repo_dir").sarif"
           done
 
-      - name: Get Json Results
+      - name: Get Sarif Results
         uses: actions/upload-artifact@v4
         with:
-          name: json-results
+          name: Sarif-results
           path: results/
