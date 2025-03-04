@@ -1,0 +1,27 @@
+name: '2ms Open Source Scan'
+on:
+  workflow_dispatch:
+
+jobs:
+  twoms-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: pip install json5  
+
+      - name: Run Scan Script
+        run: python scan.py
+
+      - name: Get Sarif Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sarif-results
+          path: results/
