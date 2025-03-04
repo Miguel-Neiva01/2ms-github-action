@@ -17,7 +17,7 @@ jobs:
       - name: Install Dependencies
         run: pip install json5  
 
-      - name: Run Scan Script
+      - name: Run 2ms
         run: python scan.py
 
       - name: Get Sarif Results
