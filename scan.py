@@ -25,20 +25,20 @@ def clone_repos(repos):
         subprocess.run(["git", "clone", "--depth=1", repo, target_dir], check=True)
 
 def run_2ms_scan():
-    """Executa o 2ms scan e guarda os resultados localmente."""
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
-    workspace = os.getcwd()  # Garante que estamos no diretório correto
+    subprocess.run(["chmod", "-R", "777", RESULTS_DIR], check=True)
+
+    workspace = os.getcwd()  
     repos_path = os.path.join(workspace, REPOS_DIR)
     results_path = os.path.join(workspace, RESULTS_DIR)
 
     for repo_name in os.listdir(repos_path):
-        repo_path = os.path.join("/repos", repo_name)  # Caminho dentro do container
-        sarif_path = os.path.join("/results", f"{repo_name}.sarif")  # Caminho dentro do container
+        repo_path = os.path.join("/repos", repo_name)  
+        sarif_path = os.path.join("/results", f"{repo_name}.sarif")  
 
-        print(f"🔍 A correr 2ms scan para {repo_name}...")
-        print(f"📂 Diretório local dos resultados: {results_path}")
-        print(f"📁 Diretório montado no container: /results")
+        print(f"🔍 Runnig {repo_name}...")
+
 
         try:
             subprocess.run([
