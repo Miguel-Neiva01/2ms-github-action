@@ -25,28 +25,44 @@ def clone_repos(repos):
         subprocess.run(["git", "clone", "--depth=1", repo, target_dir], check=True)
 
 def run_2ms_scan():
+    """Executa o 2ms scan e guarda os resultados localmente."""
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
-    for repo_name in os.listdir(REPOS_DIR):
-        repo_path = os.path.join(REPOS_DIR, repo_name)
-        sarif_path = os.path.join(RESULTS_DIR, f"{repo_name}.sarif")
+    workspace = os.getcwd()  # Garante que estamos no diretório correto
+    repos_path = os.path.join(workspace, REPOS_DIR)
+    results_path = os.path.join(workspace, RESULTS_DIR)
 
-        print(f"Running 2ms scan for {repo_name}...")
+    for repo_name in os.listdir(repos_path):
+        repo_path = os.path.join("/repos", repo_name)  # Caminho dentro do container
+        sarif_path = os.path.join("/results", f"{repo_name}.sarif")  # Caminho dentro do container
 
+        print(f"🔍 A correr 2ms scan para {repo_name}...")
         print(f"📂 Diretório local dos resultados: {results_path}")
         print(f"📁 Diretório montado no container: /results")
-        
 
-        subprocess.run([
-            "docker", "run",
-            "-v", f"{os.getcwd()}:/repos",
-            "-v", f"{os.getcwd()}/results:/results",
-            "checkmarx/2ms:latest",
-            "filesystem",
-            "--path", f"/repos/{repo_path}",
-            "--ignore-on-exit", "results",
-            "--report-path", f"/results/{repo_name}.sarif"
-        ], check=True)
+        try:
+            subprocess.run([
+                "docker", "run",
+                "--rm",
+                "-v", f"{repos_path}:/repos",
+                "-v", f"{results_path}:/results",
+                "checkmarx/2ms:latest",
+                "filesystem",
+                "--path", repo_path,  # Corrigido para não duplicar "repos/"
+                "--ignore-on-exit", "results",
+                "--report-path", sarif_path
+            ], check=True)
+
+            # Verificar se o relatório foi criado
+            local_sarif_path = os.path.join(results_path, f"{repo_name}.sarif")
+            if os.path.exists(local_sarif_path):
+                print(f"✅ Relatório guardado: {local_sarif_path}")
+            else:
+                print(f"❌ ERRO: O relatório {repo_name}.sarif não foi criado!")
+
+        except subprocess.CalledProcessError as e:
+            print(f"❌ Erro ao correr scan para {repo_name}: {e}")
+            continue
 
 def main():
     repos = load_repos()
