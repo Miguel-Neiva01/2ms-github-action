@@ -69,7 +69,8 @@ def merge_results():
             merged_data[repo_name] = {
                 'total-items-scanned': total_items_scanned,
             }
-
+            
+    output_file = os.path.join(RESULTS_DIR, "merged_results.sarif")
     output_file = "merged_results.json"
     with open(output_file, 'w') as f:
         json.dump(merged_data, f, indent=4) 
