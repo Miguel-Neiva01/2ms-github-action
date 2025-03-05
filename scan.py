@@ -33,6 +33,10 @@ def run_2ms_scan():
 
         print(f"Running 2ms scan for {repo_name}...")
 
+        print(f"📂 Diretório local dos resultados: {results_path}")
+        print(f"📁 Diretório montado no container: /results")
+        
+
         subprocess.run([
             "docker", "run",
             "-v", f"{os.getcwd()}:/repos",
