@@ -47,43 +47,32 @@ def run_2ms_scan():
                 "-v", f"{results_path}:/results",
                 "checkmarx/2ms:latest",
                 "filesystem",
-                "--path", repo_path,  # Corrigido para não duplicar "repos/"
+                "--path", repo_path, 
                 "--ignore-on-exit", "results",
                 "--report-path", sarif_path
             ], check=True)
         
+
+        
 def merge_results():
-
-    results_path = "results"
-    
+    results_path = "results" 
     merged_data = {}
-
 
     for filename in os.listdir(results_path):
         if filename.endswith(".sarif"):
-         
-            file_path = os.path.join(results_path, filename)
-            
-         
+            file_path = os.path.join(results_path, filename)   
             with open(file_path, 'r') as f:
                 data = json.load(f)
-
-        
             repo_name = os.path.splitext(filename)[0]
-
-            
-            total_items_scanned = data.get('tool', {}).get('driver', {}).get('properties', {}).get('total-items-scanned', 0)
-            secrets = []  # Aqui você pode extrair as informações sobre "secrets" ou outros dados relevantes
+            total_items_scanned = len(data.get("runs", [])[0].get("results", []))
 
             merged_data[repo_name] = {
                 'total-items-scanned': total_items_scanned,
-                'secrets': secrets
             }
-
 
     output_file = "merged_results.json"
     with open(output_file, 'w') as f:
-        json.dump(merged_data, f, indent=4)  
+        json.dump(merged_data, f, indent=4) 
 
            
 def main():
