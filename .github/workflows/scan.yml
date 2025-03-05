@@ -24,4 +24,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Sarif-results
-          path: results/merged_results.sarif
+          path: results/

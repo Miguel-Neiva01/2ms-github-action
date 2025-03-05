@@ -1,5 +1,8 @@
 name: '2ms Open Source Scan'
 on:
+  push:
+    branches:
+      - main 
   workflow_dispatch:
 
 jobs:
