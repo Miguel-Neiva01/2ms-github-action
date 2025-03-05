@@ -40,8 +40,7 @@ def run_2ms_scan():
         print(f"🔍 Runnig {repo_name}...")
 
 
-        try:
-            subprocess.run([
+        subprocess.run([
                 "docker", "run",
                 "--rm",
                 "-v", f"{repos_path}:/repos",
@@ -52,18 +51,41 @@ def run_2ms_scan():
                 "--ignore-on-exit", "results",
                 "--report-path", sarif_path
             ], check=True)
+        
+def merge_results():
 
-            # Verificar se o relatório foi criado
-            local_sarif_path = os.path.join(results_path, f"{repo_name}.sarif")
-            if os.path.exists(local_sarif_path):
-                print(f"✅ Relatório guardado: {local_sarif_path}")
-            else:
-                print(f"❌ ERRO: O relatório {repo_name}.sarif não foi criado!")
+    results_path = "results"
+    
+    merged_data = {}
 
-        except subprocess.CalledProcessError as e:
-            print(f"❌ Erro ao correr scan para {repo_name}: {e}")
-            continue
 
+    for filename in os.listdir(results_path):
+        if filename.endswith(".sarif"):
+         
+            file_path = os.path.join(results_path, filename)
+            
+         
+            with open(file_path, 'r') as f:
+                data = json.load(f)
+
+        
+            repo_name = os.path.splitext(filename)[0]
+
+            
+            total_items_scanned = data.get('tool', {}).get('driver', {}).get('properties', {}).get('total-items-scanned', 0)
+            secrets = []  # Aqui você pode extrair as informações sobre "secrets" ou outros dados relevantes
+
+            merged_data[repo_name] = {
+                'total-items-scanned': total_items_scanned,
+                'secrets': secrets
+            }
+
+
+    output_file = "merged_results.json"
+    with open(output_file, 'w') as f:
+        json.dump(merged_data, f, indent=4)  
+
+           
 def main():
     repos = load_repos()
     if not repos:
@@ -72,6 +94,7 @@ def main():
 
     clone_repos(repos)
     run_2ms_scan()
+    merge_results()
 
 if __name__ == "__main__":
     main()
