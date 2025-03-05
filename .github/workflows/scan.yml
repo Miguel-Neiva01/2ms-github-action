@@ -17,6 +17,10 @@ jobs:
       - name: Install Dependencies
         run: pip install json5  
 
+      - name: Permissions
+        run: sudo chmod -R 777 results
+
+
       - name: Run 2ms
         run: python scan.py
 
