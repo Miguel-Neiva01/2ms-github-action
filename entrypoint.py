@@ -16,15 +16,13 @@ def clone_repos(repos):
     for repo in repos:
         repo_name = os.path.basename(repo).replace(".git", "")
         target_dir = os.path.join(REPOS_DIR, repo_name)
-
-      
-
-        if os.path.exists(target_dir):
-            print(f"Repository {repo_name} already cloned, skipping...")
-            continue
         
-        print(f"Cloning {repo} into {target_dir}")
-        subprocess.run(["git", "clone", "--depth=1", repo, target_dir], check=True)
+        if os.path.exists(target_dir):
+            print(f"Repository {repo_name} already cloned, pulling latest changes...")
+            subprocess.run(["git", "-C", target_dir, "pull"], check=True)
+        else:
+            print(f"Cloning {repo} into {target_dir}")
+            subprocess.run(["git", "clone", "--depth=1", repo, target_dir], check=True)
 
         
 
@@ -33,15 +31,14 @@ def run_2ms_scan():
 
     subprocess.run(["chmod", "-R", "777", RESULTS_DIR], check=True)
 
-    workspace = os.getcwd()  
     repos_path = REPOS_DIR
-    results_path = RESULTS_DIR
+ 
 
     for repo_name in os.listdir(repos_path):
         repo_path = os.path.join(REPOS_DIR, repo_name) 
         sarif_path = os.path.join(RESULTS_DIR, f"{repo_name}.sarif")  
 
-        print(f"Running {repo_name}...")
+        print(f"Running scan for {repo_name}...")
 
 
         subprocess.run([
@@ -51,15 +48,16 @@ def run_2ms_scan():
                 "--report-path", sarif_path
             ], check=True)
         
+        merge_results
+        
 
         
 def merge_results():
-    results_path = "results" 
     merged_data = {}
 
-    for filename in os.listdir(results_path):
+    for filename in os.listdir(RESULTS_DIR):
         if filename.endswith(".sarif"):
-            file_path = os.path.join(results_path, filename)   
+            file_path = os.path.join(RESULTS_DIR, filename)   
             with open(file_path, 'r') as f:
                 data = json.load(f)
             
@@ -93,7 +91,6 @@ def main():
 
     clone_repos(repos)
     run_2ms_scan()
-    merge_results()
 
 if __name__ == "__main__":
     main()
