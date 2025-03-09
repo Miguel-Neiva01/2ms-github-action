@@ -37,6 +37,7 @@ def run_2ms_scan():
         repo_path = os.path.join(REPOS_DIR, repo_name) 
         sarif_path = os.path.join(RESULTS_DIR, f"{repo_name}.sarif")  
 
+    
 
         subprocess.run([
                 "/app/2ms", "filesystem",
@@ -45,7 +46,6 @@ def run_2ms_scan():
                 "--report-path", sarif_path
             ], check=True)
         
-        merge_results
         
 
         
@@ -75,10 +75,6 @@ def merge_results():
     with open(output_file, 'w') as f:
         json.dump(merged_data, f, indent=4)
                 
-    output_file = os.path.join(RESULTS_DIR, "merged_results.sarif")
-    with open(output_file, 'w') as f:
-        json.dump(merged_data, f, indent=4) 
-
            
 def main():
     repos = load_repos()
@@ -88,6 +84,7 @@ def main():
 
     clone_repos(repos)
     run_2ms_scan()
+    merge_results()
 
 if __name__ == "__main__":
     main()
