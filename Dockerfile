@@ -16,4 +16,4 @@ RUN chmod +x /entrypoint.py
 
 COPY ./ /app
 
-ENTRYPOINT ["python", "entrypoint.py"]
+ENTRYPOINT ["python3", "/entrypoint.py"]
