@@ -3,22 +3,21 @@ name: Run 2ms Scan
 on:
   push:
     branches:
-      - main  # Executa quando houver um commit na branch main
+      - main  
 
 jobs:
   run-2ms-scan:
-    runs-on: ubuntu-latest  # Executa no Ubuntu mais recente
+    runs-on: ubuntu-latest  
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2  # Faz o checkout do código do repositório
+        uses: actions/checkout@v3 
 
-      - name: Run 2ms scan script
-        run: |
-          python entrypoint.py 
+      - name: Run 2ms scan using 2ms GitHub Action
+        uses: miguel-neiva01/2ms-github-action@v1.0.0  
 
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
           name: scan-results
-          path: results/  # Faz upload dos resultados para a aba 'Actions'
+          path: results/  
