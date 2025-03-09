@@ -48,34 +48,35 @@ def run_2ms_scan():
         
         
 
-        
 def merge_results():
     merged_data = {}
 
+    # Primeiro, processa todos os ficheiros .sarif individuais e armazena os dados
+    sarif_files = []
     for filename in os.listdir(RESULTS_DIR):
         if filename.endswith(".sarif"):
-            file_path = os.path.join(RESULTS_DIR, filename)   
+            file_path = os.path.join(RESULTS_DIR, filename)
             with open(file_path, 'r') as f:
                 data = json.load(f)
-            
+
             repo_name = os.path.splitext(filename)[0]
-            
             runs = data.get("runs", [])
-            if runs:  
-                total_items_scanned = len(runs[0].get("results", []))
-            else:
-                total_items_scanned = 0  
+            total_items_scanned = len(runs[0].get("results", [])) if runs else 0
 
             merged_data[repo_name] = {
                 'total-items-scanned': total_items_scanned,
             }
-            os.remove(file_path)
+
+            sarif_files.append(file_path)  # Armazenar os caminhos dos arquivos para remoção posterior
+
+    
+    for file_path in sarif_files:
+        os.remove(file_path)
 
     output_file = os.path.join(RESULTS_DIR, "merged_results.sarif")
     with open(output_file, 'w') as f:
         json.dump(merged_data, f, indent=4)
-                
-           
+
 def main():
     repos = load_repos()
     if not repos:
@@ -84,7 +85,7 @@ def main():
 
     clone_repos(repos)
     run_2ms_scan()
-    merge_results()
+    merge_results
 
 if __name__ == "__main__":
     main()
