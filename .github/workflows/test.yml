@@ -18,7 +18,7 @@ jobs:
           python entrypoint.py 
 
       - name: Upload results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: scan-results
           path: results/  # Faz upload dos resultados para a aba 'Actions'
