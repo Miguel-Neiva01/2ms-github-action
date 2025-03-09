@@ -14,4 +14,4 @@ runs:
   image: 'DockerFile'
   entrypoint: "python /entrypoint.py"
   env:
-    REPOS_JSON: ${{ inputs.repos }}  # Passa o JSON com os repositórios como uma variável de ambiente
+    REPOS_JSON: ${{ inputs.repos }}  #om os repositórios como uma variável de ambiente
