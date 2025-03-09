@@ -12,7 +12,8 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  entrypoint: "sh -c 'ls -la / && ls -la /app && python3 /app/entrypoint.py'"  # Listar arquivos antes de executar
+  entrypoint: [ "sh", "-c", "ls -la / && ls -la /app && python3 /entrypoint.py" ]
+
 
   env:
     REPOS_JSON: ${{ inputs.repos }}  #om os repositórios como uma variável de ambiente
