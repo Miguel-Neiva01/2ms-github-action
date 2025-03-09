@@ -16,13 +16,16 @@ def clone_repos(repos):
     for repo in repos:
         repo_name = os.path.basename(repo).replace(".git", "")
         target_dir = os.path.join(REPOS_DIR, repo_name)
-        print(f"Cloning {repo} into {target_dir}")
+
+      
 
         if os.path.exists(target_dir):
             print(f"Repository {repo_name} already cloned, skipping...")
-            continue
+        else:
+            print(f"Cloning {repo} into {target_dir}")
+            subprocess.run(["git", "clone", "--depth=1", repo, target_dir], check=True)
 
-        subprocess.run(["git", "clone", "--depth=1", repo, target_dir], check=True)
+        
 
 def run_2ms_scan():
     os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -58,12 +61,16 @@ def merge_results():
             file_path = os.path.join(results_path, filename)   
             with open(file_path, 'r') as f:
                 data = json.load(f)
+
+        if data.get("runs", []):       
             repo_name = os.path.splitext(filename)[0]
             total_items_scanned = len(data.get("runs", [])[0].get("results", []))
 
             merged_data[repo_name] = {
                 'total-items-scanned': total_items_scanned,
             }
+        else:
+            print(f"No results found in {filename}, skipping...")
             os.remove(file_path)
 
     output_file = os.path.join(RESULTS_DIR, "merged_results.sarif")
