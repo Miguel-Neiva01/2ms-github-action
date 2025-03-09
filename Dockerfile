@@ -6,10 +6,10 @@ COPY ./repos.json /app/repos.json
 
 COPY --from=twoms-env /app /app
 
-COPY ./entrypoint.py /entrypoint.py
+COPY ./entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /entrypoint.py
+RUN chmod +x /entrypoint.sh
 
 COPY ./ /app
 
-ENTRYPOINT ["entrypoint.py"]
+ENTRYPOINT ["entrypoint.sh"]
