@@ -4,19 +4,19 @@ const { summary } = require('@actions/core/lib/summary');
 function createComment(results) {
     let message = `\n**2ms version: ${results['version']}**\n`;  
 
-    message += "<table>\n";
-    message += "<tr></tr>\n";
-    message += "<tr><td>\n\n";
+    // Cabeçalho da tabela
+    message += "<table border='1' cellpadding='5' cellspacing='0'>\n";
+    message += "<tr><th>Repo</th><th>Total Items Scanned</th></tr>\n";
 
-    message += "| Metric | Values |\n";
-    message += "| --- | --- |\n";
-    message += `| Files scanned | ${results['files_scanned']}\n`;
-    message += `| Files parsed | ${results['files_parsed']}\n`;
-    message += `| Files failed to scan | ${results['files_failed_to_scan']}\n`;
-    message += `| Execution time | ${moment(results['end']).diff(moment(results['start']), 'seconds')} seconds\n`;
+    // Adiciona as linhas da tabela para cada repositório
+    for (const [repo, data] of Object.entries(results)) {
+        message += `<tr>
+                        <td>${repo}</td>
+                        <td>${data['total-items-scanned']}</td>
+                    </tr>\n`;
+    }
 
-    message += "\n</td></tr>\n</table>\n\n";
-
+    message += "</table>\n\n";
     return message;
 }
 

@@ -6,7 +6,7 @@ REPOS_DIR = "repos"
 RESULTS_DIR = "results"
 
 def load_repos():
-    with open("repos.json", "r") as f:
+    with open("/app/repos.json", "r") as f:
         data = json.load(f)
     return data.get("projects", [])
 
@@ -37,16 +37,11 @@ def run_2ms_scan():
         repo_path = os.path.join("/repos", repo_name)  
         sarif_path = os.path.join("/results", f"{repo_name}.sarif")  
 
-        print(f"🔍 Runnig {repo_name}...")
+        print(f"Running {repo_name}...")
 
 
         subprocess.run([
-                "docker", "run",
-                "--rm",
-                "-v", f"{repos_path}:/repos",
-                "-v", f"{results_path}:/results",
-                "checkmarx/2ms:latest",
-                "filesystem",
+                "/app/2ms", "filesystem",
                 "--path", repo_path, 
                 "--ignore-on-exit", "results",
                 "--report-path", sarif_path

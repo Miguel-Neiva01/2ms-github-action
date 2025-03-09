@@ -1,0 +1,18 @@
+name: Run 2MS Scan
+
+description: |
+  GitHub Action that clones the repositories, runs 2ms scan, and merges the results.
+
+inputs:
+  repos:
+    description: 'A JSON string of repositories to scan (with URLs)'
+    required: true
+    default: '[]'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'  
+  entrypoint: ['python3', '/entrypoint.py']
+
+  env:
+    REPOS_JSON: ${{ inputs.repos }}  # Passa o JSON com os repositórios como uma variável de ambiente

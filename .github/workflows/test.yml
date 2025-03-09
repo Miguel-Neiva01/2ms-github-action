@@ -1,0 +1,24 @@
+name: Run 2ms Scan
+
+on:
+  push:
+    branches:
+      - main  # Executa quando houver um commit na branch main
+
+jobs:
+  run-2ms-scan:
+    runs-on: ubuntu-latest  # Executa no Ubuntu mais recente
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2  # Faz o checkout do código do repositório
+
+      - name: Run 2ms scan script
+        run: |
+          python entrypoint.py 
+
+      - name: Upload results
+        uses: actions/upload-artifact@v2
+        with:
+          name: scan-results
+          path: results/  # Faz upload dos resultados para a aba 'Actions'
