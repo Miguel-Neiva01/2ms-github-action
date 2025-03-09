@@ -12,7 +12,7 @@ inputs:
 runs:
   using: 'docker'
   image: 'docker://ghcr.io/miguel-neiva01/2ms-github-action:latest'
-  entrypoint: ["python3", "/entrypoint.py"]
+  entrypoint: "python3 /entrypoint.py"
 
 
   env:
