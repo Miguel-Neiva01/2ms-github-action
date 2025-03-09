@@ -34,8 +34,8 @@ def run_2ms_scan():
     results_path = os.path.join(workspace, RESULTS_DIR)
 
     for repo_name in os.listdir(repos_path):
-        repo_path = os.path.join("/repos", repo_name)  
-        sarif_path = os.path.join("/results", f"{repo_name}.sarif")  
+        repo_path = os.path.join(REPOS_DIR, repo_name) 
+        sarif_path = os.path.join(RESULTS_DIR, f"{repo_name}.sarif")  
 
         print(f"Running {repo_name}...")
 
