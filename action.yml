@@ -11,7 +11,7 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/miguel-neiva01/2ms-github-action:latest'  # A imagem que você publicou no GitHub Container Registry
+  image: 'DockerFile'
   entrypoint: "python /entrypoint.py"
   env:
     REPOS_JSON: ${{ inputs.repos }}  # Passa o JSON com os repositórios como uma variável de ambiente
