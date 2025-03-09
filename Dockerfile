@@ -6,6 +6,8 @@ FROM cgr.dev/chainguard/wolfi-base:latest
 
 RUN apk update && apk add --no-cache python3 py3-pip git
 
+RUN python3 --version
+
 COPY ./repos.json /app/repos.json
 
 COPY --from=twoms-env /app /app
