@@ -11,7 +11,7 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'ghcr.io/miguel-neiva01/2ms-github-action:latest'
+  image: 'Dockerfile'
   entrypoint: "python3 entrypoint.py"
   env:
     REPOS_JSON: ${{ inputs.repos }}  #om os repositórios como uma variável de ambiente
