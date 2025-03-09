@@ -10,10 +10,8 @@ inputs:
     default: '[]'
 
 runs:
-  using: 'docker'
-  image: 'docker://ghcr.io/miguel-neiva01/2ms-github-action:latest'
-  entrypoint: "python3 entrypoint.py"
+   using: "docker"
+   image: Dockerfile
 
-
-  env:
+   env:
     REPOS_JSON: ${{ inputs.repos }}  #om os repositórios como uma variável de ambiente
