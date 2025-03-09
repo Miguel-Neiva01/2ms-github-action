@@ -18,4 +18,13 @@ RUN chmod +x /entrypoint.py
 
 COPY ./ /app
 
-ENTRYPOINT ["python3", "entrypoint.py"]
+RUN echo "Starting the build process..." && \
+    python3 --version && \
+    ls -la / && \
+    echo "Checking if entrypoint.py is in the right place..." && \
+    ls -la /entrypoint.py
+
+RUN ls -l /entrypoint.py
+
+
+ENTRYPOINT ["sh", "-c", "echo 'Running entrypoint.py...' && /usr/bin/python3 /entrypoint.py"]
