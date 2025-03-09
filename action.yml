@@ -11,7 +11,7 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'Dockerfile'
-  entrypoint: "python /entrypoint.py"
+  image: 'ghcr.io/miguel-neiva01/2ms-github-action:latest'
+  entrypoint: "sh -c 'ls -la / && python3 /entrypoint.py'"  # Listar arquivos antes de executar
   env:
-    REPOS_JSON: ${{ inputs.repos }}  #om os repositórios como uma variável de ambiente
+    REPOS_JSON: ${{ inputs.repos }}  
