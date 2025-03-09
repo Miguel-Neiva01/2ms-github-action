@@ -13,7 +13,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3 
 
-      - name: Run 2ms scan using 2ms GitHub Action
+      - name: Run 2ms 
         uses: miguel-neiva01/2ms-github-action@v1.1.3
 
       - name: Upload results
