@@ -10,7 +10,7 @@ inputs:
     default: '[]'
 
 runs:
-  using: 'docker'
+  using: 'docker://ghcr.io/miguel-neiva01/2ms-github-action:latest'
   image: 'ghcr.io/miguel-neiva01/2ms-github-action:latest'  # A imagem que você publicou no GitHub Container Registry
   entrypoint: "python /entrypoint.py"
   env:
