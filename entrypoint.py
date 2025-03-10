@@ -35,7 +35,7 @@ def run_2ms_scan():
 
     for repo_name in os.listdir(repos_path):
         repo_path = os.path.join(REPOS_DIR, repo_name) 
-        sarif_path = os.path.join(RESULTS_DIR, f"{repo_name}.sarif")  
+        json_path = os.path.join(RESULTS_DIR, f"{repo_name}.json")  
 
     
 
@@ -43,7 +43,7 @@ def run_2ms_scan():
                 "/app/2ms", "filesystem",
                 "--path", repo_path, 
                 "--ignore-on-exit", "results",
-                "--report-path", sarif_path
+                "--report-path", json_path
             ], check=True)
         
         
@@ -51,10 +51,9 @@ def run_2ms_scan():
 def merge_results():
     merged_data = {}
 
-    # Primeiro, processa todos os ficheiros .sarif individuais e armazena os dados
-    sarif_files = []
+    json_files = []
     for filename in os.listdir(RESULTS_DIR):
-        if filename.endswith(".sarif"):
+        if filename.endswith(".json"):
             file_path = os.path.join(RESULTS_DIR, filename)
             with open(file_path, 'r') as f:
                 data = json.load(f)
@@ -67,15 +66,22 @@ def merge_results():
                 'total-items-scanned': total_items_scanned,
             }
 
-            sarif_files.append(file_path)  # Armazenar os caminhos dos arquivos para remoção posterior
+            json_files.append(file_path) 
 
     
-    for file_path in sarif_files:
+    for file_path in json_files:
         os.remove(file_path)
 
-    output_file = os.path.join(RESULTS_DIR, "merged_results.sarif")
+    output_file = os.path.join(RESULTS_DIR, "results.json")
     with open(output_file, 'w') as f:
         json.dump(merged_data, f, indent=4)
+
+def run_node_script():
+    print("Execute node script")
+    try:
+        subprocess.run(["node", "/app/src/main.js"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing script: {e}")
 
 def main():
     repos = load_repos()
@@ -85,7 +91,9 @@ def main():
 
     clone_repos(repos)
     run_2ms_scan()
-    merge_results
+    merge_results()
+    run_node_script()
+
 
 if __name__ == "__main__":
     main()

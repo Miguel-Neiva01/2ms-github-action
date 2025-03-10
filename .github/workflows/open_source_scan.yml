@@ -24,11 +24,11 @@ jobs:
           chmod -R 777 results
           for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
-            docker run -v "$(pwd):/repos" -v "$(pwd)/results:/results" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results --report-path "/results/$(basename "$repo_dir").sarif"
+            docker run -v "$(pwd):/repos" -v "$(pwd)/results:/results" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results --report-path "/results/$(basename "$repo_dir").json"
           done
 
-      - name: Get Sarif Results
+      - name: Get Json Results
         uses: actions/upload-artifact@v4
         with:
-          name: Sarif-results
+          name: Json-results
           path: results/

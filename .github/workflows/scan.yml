@@ -20,8 +20,8 @@ jobs:
       - name: Run 2ms
         run: python scan.py
 
-      - name: Get Sarif Results
+      - name: Get Json Results
         uses: actions/upload-artifact@v4
         with:
-          name: Sarif-results
+          name: Json-results
           path: results/

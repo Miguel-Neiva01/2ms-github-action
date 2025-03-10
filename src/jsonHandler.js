@@ -1,18 +1,20 @@
-const fs = require('fs');
-const path = require('path');
+const moment = require('moment');
+const { summary } = require('@actions/core/lib/summary');
 
-// Função para ler os resultados do arquivo JSON (merge_results.json)
-function readResults() {
-    const filePath = path.join(__dirname, 'merged_results.json');  // Caminho para o arquivo de resultados
+function createComment(results) {
+    let message = "### 2ms Scan Summary\n";
+    message += `**2msversion**: ${results['2ms-version']}\n\n`;
 
-    if (!fs.existsSync(filePath)) {
-        throw new Error('merged_results.json não encontrado.');
-    }
+    message += `Total files scanned: **${results['files_scanned']}**\n`;
 
-    const data = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(data);  // Retorna os resultados como um objeto JavaScript
+    return message;
+}
+
+async function postJobSummary(results) {
+    const message = createComment(results);
+    await summary.addRaw(message).write(); 
 }
 
 module.exports = {
-    readResults
+    postJobSummary
 };
