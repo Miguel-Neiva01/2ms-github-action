@@ -15,3 +15,9 @@ runs:
 
    env:
     REPOS_JSON: ${{ inputs.repos }} 
+    RESULTS_DIR: /app/results
+
+    RESULTS_DIR: /app/results
+
+   args:
+     - "/app/results/results.json"
