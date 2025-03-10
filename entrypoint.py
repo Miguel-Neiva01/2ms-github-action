@@ -2,8 +2,8 @@ import os
 import json
 import subprocess
 
-REPOS_DIR = "repos"
-RESULTS_DIR = "results"
+REPOS_DIR = "/app/repos"
+RESULTS_DIR = "/app/results"
 
 def load_repos():
     with open("/app/repos.json", "r") as f:
