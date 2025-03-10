@@ -4,11 +4,10 @@ const { summary } = require('@actions/core/lib/summary');
 function createComment(results) {
     let message = `\n**2ms version: ${results['version']}**\n`;  
 
-    // Cabeçalho da tabela
+
     message += "<table border='1' cellpadding='5' cellspacing='0'>\n";
     message += "<tr><th>Repo</th><th>Total Items Scanned</th></tr>\n";
 
-    // Adiciona as linhas da tabela para cada repositório
     for (const [repo, data] of Object.entries(results)) {
         message += `<tr>
                         <td>${repo}</td>
@@ -22,7 +21,11 @@ function createComment(results) {
 
 async function postJobSummary(results) {
     const message = createComment(results);
+
+    
+    console.log("Gerando Job Summary...");
     await summary.addRaw(message).write();
+    console.log("Job Summary gerado com sucesso!");
 }
 
 module.exports = {

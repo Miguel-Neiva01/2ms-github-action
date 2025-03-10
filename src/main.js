@@ -9,7 +9,7 @@ const token = process.env.GITHUB_TOKEN;  // A variável GITHUB_TOKEN é automati
 
 async function postCommitComment(results, commitSha, repo) {
   try {
-    const message = createComment(results);  // Cria a mensagem para o comentário e o job summary
+    const message = createComment(results);  
 
     const octokit = github.getOctokit(token);  
 
@@ -20,11 +20,14 @@ async function postCommitComment(results, commitSha, repo) {
       body: message,
     });
 
- 
+    console.log("Adicionando Job Summary...");
+    
     await core.summary
-      .addRaw(message)  
-      .write(); 
-
+    .addRaw(message)  
+    .write(); 
+    
+    console.log("Job Summary gerado com sucesso!");
+    
   } catch (error) {
     core.setFailed(`Error posting commit comment: ${error.message}`);
   }
