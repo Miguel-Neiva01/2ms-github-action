@@ -14,6 +14,8 @@ COPY ./entrypoint.py /entrypoint.py
 
 COPY ./src /app/src
 
+RUN mkdir -p /app/results && chmod -R 777 /app/results
+
 RUN chmod +x /entrypoint.py
 
 COPY ./ /app
