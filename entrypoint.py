@@ -101,11 +101,6 @@ def main():
 
     run_node_script()
 
-    
-    results_json_path = os.path.join(RESULTS_DIR, "results.json")
-    if os.path.exists(results_json_path):
-        os.remove(results_json_path)
-
 
 if __name__ == "__main__":
     main()
