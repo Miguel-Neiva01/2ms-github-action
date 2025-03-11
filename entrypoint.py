@@ -84,10 +84,6 @@ def merge_results(repo_scan_results):
 
             json_files.append(file_path) 
 
-    
-    for file_path in json_files:
-        os.remove(file_path)
-
     output_file = os.path.join(RESULTS_DIR, "results.json")
     with open(output_file, 'w') as f:
         json.dump(merged_data, f, indent=4)
@@ -109,6 +105,10 @@ def main():
     repo_scan_results = run_2ms_scan()
     merge_results(repo_scan_results)
     run_node_script()
+
+    results_json_path = os.path.join(RESULTS_DIR, "results.json")
+    if os.path.exists(results_json_path):
+        os.remove(results_json_path)
 
 
 if __name__ == "__main__":
