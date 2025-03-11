@@ -1,6 +1,6 @@
-from src.clone import clone_repos
-from src.scan import run_2ms_scan
-from src.merge import merge_results
+from src.clone_repos import clone_repos
+from src.scan_2ms import run_2ms_scan
+from src.merge_results import merge_results
 from src.node_script import run_node_script
 from src.load_repos import load_repos
 import os
