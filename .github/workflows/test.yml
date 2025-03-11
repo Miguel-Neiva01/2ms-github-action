@@ -12,10 +12,18 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3 
+
       - name: Run 2ms 
-        uses: miguel-neiva01/2ms-github-action@v1.3.23
+        uses: miguel-neiva01/2ms-github-action@v1.3.24
+
+      - name: Debug - List results directory
+        run: ls -la /app/results || echo "Results directory not found"
+
+      - name: Copy results to workspace
+        run: cp -r /app/results $GITHUB_WORKSPACE || echo "No results to copy"
+
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
           name: 2ms-results
-          path: /app/results/  
+          path: $GITHUB_WORKSPACE/results/
