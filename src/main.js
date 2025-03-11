@@ -2,10 +2,10 @@ const fs = require("fs");
 const core = require("@actions/core");
 const github = require("@actions/github");
 const path = require("path");
-const { createComment, postJobSummary } = require("./report");
+const {postJobSummary } = require("./report");
 
-const commitSha = github.context.sha;  // Obtém diretamente do contexto do GitHub
-const token = process.env.GITHUB_TOKEN;  // A variável GITHUB_TOKEN é automaticamente fornecida pelo GitHub
+const commitSha = github.context.sha;  
+const token = process.env.GITHUB_TOKEN;  
 
 async function postCommitComment(results, commitSha, repo) {
   try {
