@@ -48,7 +48,9 @@ def run_2ms_scan():
         except subprocess.CalledProcessError:
             print(f"2ms scan failed for {repo_name}. Marking test as failed.")
             repo_scan_results[repo_name] = False 
-        return repo_scan_results
+            
+    
+    return repo_scan_results
 
         
 
