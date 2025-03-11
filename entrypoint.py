@@ -49,28 +49,19 @@ def run_2ms_scan():
             print(f"2ms scan failed for {repo_name}. Marking test as failed.")
             repo_scan_results[repo_name] = False 
             
-    print(f"Scan results: {repo_scan_results}")
     return repo_scan_results
 
         
+
 def merge_results(repo_scan_results):
     merged_data = {}
 
-    json_files = [f for f in os.listdir(RESULTS_DIR) if f.endswith(".json")]
-    print(f"JSON files found: {json_files}")
-
-    for filename in json_files:
-        file_path = os.path.join(RESULTS_DIR, filename)
-        
-       
-        if os.path.isfile(file_path):
+    json_files = []
+    for filename in os.listdir(RESULTS_DIR):
+        if filename.endswith(".json"):
+            file_path = os.path.join(RESULTS_DIR, filename)
             with open(file_path, 'r') as f:
-                try:
-                    data = json.load(f)
-                except json.JSONDecodeError:
-                    print(f"Skipping invalid JSON file: {file_path}")
-                    continue
-
+                data = json.load(f)
 
             repo_name = os.path.splitext(filename)[0]
             runs = data.get("runs", [])
@@ -84,9 +75,6 @@ def merge_results(repo_scan_results):
 
             json_files.append(file_path) 
 
-    
-    for file_path in json_files:
-        os.remove(file_path)
 
     output_file = os.path.join(RESULTS_DIR, "results.json")
     with open(output_file, 'w') as f:
@@ -106,9 +94,17 @@ def main():
         return
 
     clone_repos(repos)
+
     repo_scan_results = run_2ms_scan()
+
     merge_results(repo_scan_results)
+
     run_node_script()
+
+    
+    results_json_path = os.path.join(RESULTS_DIR, "results.json")
+    if os.path.exists(results_json_path):
+        os.remove(results_json_path)
 
 
 if __name__ == "__main__":
