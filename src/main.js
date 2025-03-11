@@ -12,8 +12,10 @@ async function run() {
       return;
     }
 
+    const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
+
  
-    await postJobSummary();
+    await postJobSummary(results);
 
   } catch (error) {
     core.setFailed(`Workflow error: ${error.message}`);
