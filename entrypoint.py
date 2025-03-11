@@ -31,24 +31,28 @@ def run_2ms_scan():
     subprocess.run(["chmod", "-R", "777", RESULTS_DIR], check=True)
 
     repos_path = REPOS_DIR
- 
+    repo_scan_results= {}
 
     for repo_name in os.listdir(repos_path):
         repo_path = os.path.join(REPOS_DIR, repo_name) 
         json_path = os.path.join(RESULTS_DIR, f"{repo_name}.json")  
 
-    
-
-        subprocess.run([
+        try:
+            subprocess.run([
                 "/app/2ms", "filesystem",
                 "--path", repo_path, 
                 "--ignore-on-exit", "results",
                 "--report-path", json_path
             ], check=True)
-        
+            repo_scan_results[repo_name] = True  
+        except subprocess.CalledProcessError:
+            print(f"2ms scan failed for {repo_name}. Marking test as failed.")
+            repo_scan_results[repo_name] = False 
+        return repo_scan_results
+
         
 
-def merge_results():
+def merge_results(repo_scan_results):
     merged_data = {}
 
     json_files = []
@@ -61,9 +65,11 @@ def merge_results():
             repo_name = os.path.splitext(filename)[0]
             runs = data.get("runs", [])
             total_items_scanned = len(runs[0].get("results", [])) if runs else 0
+            repo_scan= repo_scan_results.get(repo_name,False)
 
             merged_data[repo_name] = {
                 'total-items-scanned': total_items_scanned,
+                'repo_scan' : repo_scan,
             }
 
             json_files.append(file_path) 
@@ -90,8 +96,8 @@ def main():
         return
 
     clone_repos(repos)
-    run_2ms_scan()
-    merge_results()
+    repo_scan_results = run_2ms_scan()
+    merge_results(repo_scan_results)
     run_node_script()
 
 

@@ -4,25 +4,23 @@ const { summary } = require('@actions/core/lib/summary');
 function createComment(results) {
     let message = `\n**2ms version: ${results['version']}**\n`;  
 
+    // Criação da tabela em Markdown
+    message += "\n| Repo | Total Items Scanned | Test Passed |\n";
+    message += "|------|---------------------|-------------|\n";  // Linha de separação
 
-    message += "<table border='1' cellpadding='5' cellspacing='0'>\n";
-    message += "<tr><th>Repo</th><th>Total Items Scanned</th></tr>\n";
-
+    // Adiciona cada repositório e o status do scan
     for (const [repo, data] of Object.entries(results)) {
-        message += `<tr>
-                        <td>${repo}</td>
-                        <td>${data['total-items-scanned']}</td>
-                    </tr>\n`;
+        const testPassed = data.repo_scan ? "✅" : "❌";  // Usa um símbolo para mostrar se passou ou falhou
+        message += `| ${repo} | ${data['total-items-scanned']} | ${testPassed} |\n`;
     }
 
-    message += "</table>\n\n";
+    message += "\n";
     return message;
 }
 
 async function postJobSummary(results) {
     const message = createComment(results);
 
-    
     console.log("Gerando Job Summary...");
     await summary.addRaw(message).write();
     console.log("Job Summary gerado com sucesso!");
