@@ -13,7 +13,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3 
       - name: Run 2ms 
-        uses: miguel-neiva01/2ms-github-action@v1.3.20
+        uses: miguel-neiva01/2ms-github-action@v1.3.21
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
