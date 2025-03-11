@@ -48,7 +48,7 @@ def run_2ms_scan():
         except subprocess.CalledProcessError:
             print(f"2ms scan failed for {repo_name}. Marking test as failed.")
             repo_scan_results[repo_name] = False 
-            
+    
     return repo_scan_results
 
         
@@ -73,8 +73,8 @@ def merge_results(repo_scan_results):
                 'repo_scan' : repo_scan,
             }
 
-            json_files.append(file_path) 
-
+            json_files.append(file_path)
+            
 
     output_file = os.path.join(RESULTS_DIR, "results.json")
     with open(output_file, 'w') as f:
@@ -94,11 +94,8 @@ def main():
         return
 
     clone_repos(repos)
-
     repo_scan_results = run_2ms_scan()
-
     merge_results(repo_scan_results)
-
     run_node_script()
 
 
