@@ -2,14 +2,14 @@ const fs = require("fs");
 const core = require("@actions/core");
 const github = require("@actions/github");
 const path = require("path");
-const { createComment } = require("./report");
+const { createComment, postJobSummary } = require("./report");
 
 const commitSha = github.context.sha;  // Obtém diretamente do contexto do GitHub
 const token = process.env.GITHUB_TOKEN;  // A variável GITHUB_TOKEN é automaticamente fornecida pelo GitHub
 
 async function postCommitComment(results, commitSha, repo) {
   try {
-    const message = createComment(results);  
+    const message = postJobSummary(results);  
 
     const octokit = github.getOctokit(token);  
 
