@@ -18,6 +18,8 @@ COPY ./entrypoint.py /entrypoint.py
 
 COPY ./src /app/src
 
+RUN chmod +x /app/src/main.js
+
 RUN chmod +x /entrypoint.py
 
 COPY ./ /app
