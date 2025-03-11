@@ -4,6 +4,8 @@ const { summary } = require('@actions/core/lib/summary');
 function createComment(results) {
 
     let message = `![2ms logo](https://github.com/Miguel-Neiva01/2ms-github-action/blob/main/images/2ms_icon.svg?raw=true)\n`;
+    message += `![2ms logo](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Logo_2ms_Logo.svg/1200px-Logo_2ms_Logo.svg.png)\n`;
+
     message += `\n**2ms version: ${results['version']}**\n`;  
 
  
