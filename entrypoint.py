@@ -12,7 +12,6 @@ def main():
     repos = load_repos()
     if not repos:
         print("No repositories found in repos.json.")
-        return
 
     clone_repos(repos)
     repo_scan_results = run_2ms_scan(REPOS_DIR, RESULTS_DIR)
