@@ -19,12 +19,15 @@ def merge_results(repo_scan_results, RESULTS_DIR):
                     continue
 
             repo_name = os.path.splitext(filename)[0]
-            runs = data.get("runs", [])
-            total_items_scanned = len(runs[0].get("results", [])) if runs else 0
+
+            total_items_scanned = data.get("totalItemsScanned", 0)
+            total_secrets_found = data.get("totalSecretsFound", 0)
             repo_scan = repo_scan_results.get(repo_name, False)
+
 
             merged_data[repo_name] = {
                 'total-items-scanned': total_items_scanned,
+                'total-secrets-found': total_secrets_found,
                 'repo_scan': repo_scan,
             }
 

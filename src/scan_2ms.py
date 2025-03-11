@@ -19,9 +19,9 @@ def run_2ms_scan(REPOS_DIR, RESULTS_DIR):
                 "--report-path", json_path
             ], check=True)
             repo_scan_results[repo_name] = True  
-        except subprocess.CalledProcessError:
-            print(f"2ms scan failed for {repo_name}. Marking test as failed.")
-            repo_scan_results[repo_name] = False
-            
+        except subprocess.CalledProcessError as e:
+            print(f"2ms scan failed for {repo_name}. Error: {e}. Marking test as failed.")
+            repo_scan_results[repo_name] = False  
+
     print(f"Scan results: {repo_scan_results}")
     return repo_scan_results
