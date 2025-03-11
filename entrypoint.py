@@ -2,16 +2,8 @@ import os
 import json
 import subprocess
 
-REPOS_DIR = "/app/repos"
-RESULTS_DIR = "/app/results"
-RESULTS_FILE = os.path.join(RESULTS_DIR, "results.json")
-
-
-os.makedirs(RESULTS_DIR, exist_ok=True)
-if not os.path.exists(RESULTS_FILE):
-    with open(RESULTS_FILE, "w") as f:
-        json.dump({}, f)  
-
+REPOS_DIR = "repos"
+RESULTS_DIR = "results"
 
 def load_repos():
     with open("/app/repos.json", "r") as f:

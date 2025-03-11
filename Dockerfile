@@ -2,7 +2,7 @@ FROM checkmarx/2ms:latest as twoms-env
 
 FROM cgr.dev/chainguard/wolfi-base:latest
 
-RUN apk add --no-cache python3 py3-pip git nodejs npm
+RUN apk add --no-cache python3 py3-pip git npm
 
 WORKDIR /app
 
@@ -10,10 +10,16 @@ COPY package.json package-lock.json ./
 
 RUN npm install
 
-COPY . .
+COPY ./repos.json /app/repos.json
 
 COPY --from=twoms-env /app /app
 
-RUN chmod +x /app/entrypoint.py
+COPY ./entrypoint.py /entrypoint.py
 
-CMD ["python3", "/app/entrypoint.py"]
+COPY ./src /app/src
+
+RUN chmod +x /entrypoint.py
+
+COPY ./ /app
+
+CMD ["python3", "/entrypoint.py"]
