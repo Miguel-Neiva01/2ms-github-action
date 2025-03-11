@@ -6,14 +6,14 @@ on:
       - main  
 
 jobs:
-  run-2ms-scan:
+  twoms-scan:
     runs-on: ubuntu-latest  
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v3 
       - name: Run 2ms 
-        uses: miguel-neiva01/2ms-github-action@v1.4.3
+        uses: miguel-neiva01/2ms-github-action@v1.4.4
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
