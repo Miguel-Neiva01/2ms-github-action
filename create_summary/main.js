@@ -7,16 +7,24 @@ async function run() {
   try {
     const resultsPath = path.join(process.cwd(), "results/results.json");
 
+    console.log("Checking if the 'results.json' file exists...");
+
     if (!fs.existsSync(resultsPath)) {
       core.setFailed("Results file not found in 'results/' folder.");
+      console.log("File 'results.json' not found.");
       return;
     }
 
- 
-    await postJobSummary();
+    console.log("File 'results.json' found:", resultsPath);
+
+
+    const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
+
+    await postJobSummary(results);
 
   } catch (error) {
     core.setFailed(`Workflow error: ${error.message}`);
+    console.error("Error during execution:", error);
   }
 }
 
