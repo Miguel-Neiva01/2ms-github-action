@@ -7,6 +7,7 @@ RUN apk add --no-cache python3 py3-pip git npm
 WORKDIR /app
 
 COPY ./ /app/
+COPY --from=twoms-env /app/2ms /app/2ms
 
 RUN chmod -R +x /app
 
