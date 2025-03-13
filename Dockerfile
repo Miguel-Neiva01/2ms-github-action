@@ -13,15 +13,17 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
-COPY --from=twoms-env /app /app
+
+COPY --from=twoms-env /app/2ms /app/2ms
 COPY ./create_summary /app/create_summary
 COPY ./repos.json /app/repos.json
 COPY ./entrypoint.py /app/entrypoint.py
 COPY ./src /app/src  
 
-RUN chmod +x /app/2ms
-RUN chmod +x /app/create_summary/main.js /app/entrypoint.py
 
+RUN chmod +x /app/2ms
+RUN chmod +x /app/entrypoint.py
 
 
 CMD ["python3", "/app/entrypoint.py"]
+
