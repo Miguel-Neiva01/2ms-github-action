@@ -2,9 +2,9 @@
   "name": "2ms-github-action",
   "version": "1.0.0",
   "description": "GitHub Action to run 2ms scan and post comments",
-  "main": "main.js",
+  "main": "create_summary/main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node create_summary/main.js"
   },
   "dependencies": {
     "moment": "^2.29.1",
