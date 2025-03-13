@@ -19,14 +19,6 @@ async function run() {
 
     const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
 
-    console.log("Results content:", JSON.stringify(results, null, 2));
-
-      // Check if results are null or undefined before calling postJobSummary
-      if (!results || Object.keys(results).length === 0) {
-        core.setFailed("Results data is invalid or empty.");
-        return;
-      }
-
     await postJobSummary(results);
 
   } catch (error) {

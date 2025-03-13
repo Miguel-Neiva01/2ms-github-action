@@ -21,17 +21,10 @@ def main():
 
     results_path = os.path.join(RESULTS_DIR, "results.json")
     
-    # Verifica se o arquivo results.json existe e imprime seu conteúdo
+
     if os.path.exists(results_path):
         with open(results_path, 'r') as f:
-            results_data = json.load(f)
-            print("Conteúdo do arquivo results.json:")
-            print(json.dumps(results_data, indent=4))  # Exibe o conteúdo de forma legível
+            os.remove(results_path)
 
-        # Remover o arquivo após log
-        os.remove(results_path)
-
-
-   
 if __name__ == "__main__":
     main()
