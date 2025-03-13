@@ -17,13 +17,16 @@ async function run() {
 
     console.log("File 'results.json' found:", resultsPath);
 
-    // Load the content of the JSON file
     const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
 
-    // Log the content of the results file
     console.log("Results content:", JSON.stringify(results, null, 2));
 
-    // Pass the results to postJobSummary
+      // Check if results are null or undefined before calling postJobSummary
+      if (!results || Object.keys(results).length === 0) {
+        core.setFailed("Results data is invalid or empty.");
+        return;
+      }
+
     await postJobSummary(results);
 
   } catch (error) {

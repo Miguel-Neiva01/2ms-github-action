@@ -1,3 +1,4 @@
+import json
 from src.clone_repos import clone_repos
 from src.scan_2ms import run_2ms_scan
 from src.merge_results import merge_results
@@ -18,9 +19,19 @@ def main():
     merge_results(repo_scan_results, RESULTS_DIR)
     run_node_script()
 
-    results_remove = os.path.join(RESULTS_DIR, "results.json")
-    if os.path.exists(results_remove):
-        os.remove(results_remove)
+    results_path = os.path.join(RESULTS_DIR, "results.json")
+    
+    # Verifica se o arquivo results.json existe e imprime seu conteúdo
+    if os.path.exists(results_path):
+        with open(results_path, 'r') as f:
+            results_data = json.load(f)
+            print("Conteúdo do arquivo results.json:")
+            print(json.dumps(results_data, indent=4))  # Exibe o conteúdo de forma legível
 
+        # Remover o arquivo após log
+        os.remove(results_path)
+
+
+   
 if __name__ == "__main__":
     main()
