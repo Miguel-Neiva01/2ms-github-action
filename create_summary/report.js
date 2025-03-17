@@ -28,3 +28,4 @@ async function postJobSummary(results) {
 
 module.exports = {
     postJobSummary
+};

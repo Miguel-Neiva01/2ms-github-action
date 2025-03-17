@@ -17,9 +17,10 @@ async function run() {
 
     console.log("File 'results.sarif' found:", resultsPath);
 
-    const results = SARIF.parse(fs.readFileSync(resultsPath, "utf8"));
+  
+    const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
 
-    await postJobSummary(results);
+    await postJobSummary(results); 
 
   } catch (error) {
     core.setFailed(`Workflow error: ${error.message}`);
