@@ -21,17 +21,17 @@ def merge_results(repo_scan_results, RESULTS_DIR):
             repo_name = os.path.splitext(filename)[0]
 
        
-            total_items_scanned = data.get("runs", [{}])[0].get("tool", {}).get("driver", {}).get("name", "Unknown")
+            different_results = len(data.get("runs", [{}])[0].get("tool", {}).get("driver", {}).get("rules", []))
             total_secrets_found = len(data.get("runs", [{}])[0].get("results", []))
             repo_scan = repo_scan_results.get(repo_name, False)
 
             merged_data[repo_name] = {
-                'total-items-scanned': total_items_scanned,
+                'different-results': different_results,
                 'total-secrets-found': total_secrets_found,
                 'repo_scan': repo_scan,
             }
 
-    # Gravar os resultados no arquivo final
+    
     output_file = os.path.join(RESULTS_DIR, "results.sarif")
     with open(output_file, 'w') as f:
         json.dump(merged_data, f, indent=4)

@@ -1,5 +1,4 @@
 import subprocess
-
 def run_node_script():
     print("Executing node script...")
     try:
