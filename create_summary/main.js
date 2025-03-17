@@ -5,7 +5,7 @@ const { postJobSummary } = require("./report");
 
 async function run() {
   try {
-    const resultsPath = path.join(process.cwd(), "results/results.sarif");
+    const resultsPath = path.join(process.cwd(), "results/results.json");
 
     console.log("Checking if the 'results.sarif' file exists...");
 
@@ -15,7 +15,7 @@ async function run() {
       return;
     }
 
-    console.log("File 'results.sarif' found:", resultsPath);
+    console.log("File 'results.json' found:", resultsPath);
 
   
     const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));

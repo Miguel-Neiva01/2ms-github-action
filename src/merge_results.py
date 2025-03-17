@@ -32,7 +32,7 @@ def merge_results(repo_scan_results, RESULTS_DIR):
             }
 
     
-    output_file = os.path.join(RESULTS_DIR, "results.sarif")
+    output_file = os.path.join(RESULTS_DIR, "results.json")
     with open(output_file, 'w') as f:
         json.dump(merged_data, f, indent=4)
     print(f"Results saved to {output_file}")

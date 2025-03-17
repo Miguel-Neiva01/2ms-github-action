@@ -20,8 +20,8 @@ function createComment(results) {
 
 async function postJobSummary(results) {
     const message = createComment(results);
-
     console.log("Gerando Job Summary...");
+
     await summary.addRaw(message).write();
     console.log("Job Summary gerado com sucesso!");
 }
