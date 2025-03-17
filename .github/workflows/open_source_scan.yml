@@ -12,7 +12,7 @@ jobs:
       - name: Clone Repos
         run: |
           mkdir -p repos
-          for repo in $(jq -r '.projects[]' repos.json); do
+          for repo in $(jq -r '.projects[]' repos.sarif); do
             target="repos/$(basename "$repo" .git)"
             echo "Cloning $repo into $target"
             git clone --depth=1 "$repo" "$target"
@@ -24,11 +24,11 @@ jobs:
           chmod -R 777 results
           for repo_dir in repos/*; do 
             echo "Running 2ms for $repo_dir"
-            docker run -v "$(pwd):/repos" -v "$(pwd)/results:/results" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results --report-path "/results/$(basename "$repo_dir").json"
+            docker run -v "$(pwd):/repos" -v "$(pwd)/results:/results" checkmarx/2ms:latest filesystem --path "/repos/$repo_dir" --ignore-on-exit results --report-path "/results/$(basename "$repo_dir").sarif"
           done
 
-      - name: Get Json Results
+      - name: Get Sarif Results
         uses: actions/upload-artifact@v4
         with:
-          name: Json-results
+          name: Sarif-results
           path: results/

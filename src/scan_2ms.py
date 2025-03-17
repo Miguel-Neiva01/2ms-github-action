@@ -9,14 +9,14 @@ def run_2ms_scan(REPOS_DIR, RESULTS_DIR):
 
     for repo_name in os.listdir(REPOS_DIR):
         repo_path = os.path.join(REPOS_DIR, repo_name) 
-        json_path = os.path.join(RESULTS_DIR, f"{repo_name}.json")  
+        sarif_path = os.path.join(RESULTS_DIR, f"{repo_name}.sarif")  
 
         try:
             subprocess.run([
                 "/app/2ms", "filesystem",
                 "--path", repo_path, 
                 "--ignore-on-exit", "results",
-                "--report-path", json_path
+                "--report-path", sarif_path
             ], check=True)
             repo_scan_results[repo_name] = True  
         except subprocess.CalledProcessError as e:

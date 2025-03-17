@@ -5,19 +5,19 @@ const { postJobSummary } = require("./report");
 
 async function run() {
   try {
-    const resultsPath = path.join(process.cwd(), "results/results.json");
+    const resultsPath = path.join(process.cwd(), "results/results.sarif");
 
-    console.log("Checking if the 'results.json' file exists...");
+    console.log("Checking if the 'results.sarif' file exists...");
 
     if (!fs.existsSync(resultsPath)) {
       core.setFailed("Results file not found in 'results/' folder.");
-      console.log("File 'results.json' not found.");
+      console.log("File 'results.sarif' not found.");
       return;
     }
 
-    console.log("File 'results.json' found:", resultsPath);
+    console.log("File 'results.sarif' found:", resultsPath);
 
-    const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
+    const results = SARIF.parse(fs.readFileSync(resultsPath, "utf8"));
 
     await postJobSummary(results);
 

@@ -12,14 +12,14 @@ REPOS_DIR = "repos"
 def main():
     repos = load_repos()
     if not repos:
-        print("No repositories found in repos.json.")
+        print("No repositories found in repos.sarif.")
 
     clone_repos(repos)
     repo_scan_results = run_2ms_scan(REPOS_DIR, RESULTS_DIR)
     merge_results(repo_scan_results, RESULTS_DIR)
     run_node_script()
 
-    results_path = os.path.join(RESULTS_DIR, "results.json")
+    results_path = os.path.join(RESULTS_DIR, "results.sarif")
     
 
     if os.path.exists(results_path):

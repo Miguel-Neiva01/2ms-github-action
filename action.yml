@@ -5,7 +5,7 @@ description: |
 
 inputs:
   repos:
-    description: 'A JSON string of repositories to scan (with URLs)'
+    description: 'A Sarif string of repositories to scan (with URLs)'
     required: true
     default: '[]'
 
@@ -14,4 +14,4 @@ runs:
    image: Dockerfile
 
    env:
-    REPOS_JSON: ${{ inputs.repos }} 
+    REPOS_Sarif: ${{ inputs.repos }} 
