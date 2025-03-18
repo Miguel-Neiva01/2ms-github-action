@@ -11,12 +11,16 @@ inputs:
 runs:
   using: "docker"
   image: "ubuntu:latest"
+  entrypoint: "/bin/bash"
   args: |
-    /bin/bash -c "
-      git clone --branch ${{ inputs.commit_hash }} https://github.com/checkmarx/2ms.git && 
-      cd 2ms && 
-      go mod tidy && 
-      go build -o /tmp/2ms main.go && 
-      /tmp/2ms && 
-      python3 ./entrypoint.py
+    -c "
+    sudo apt-get update
+    sudo apt-get install -y python3 python3-pip git npm
+
+    git clone --branch ${{ inputs.commit_hash }} https://github.com/checkmarx/2ms.git
+    cd 2ms
+    go mod tidy
+    go build -o /tmp/2ms main.go
+    /tmp/2ms
+    python3 ./entrypoint.py
     "
