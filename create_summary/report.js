@@ -1,4 +1,3 @@
-const moment = require('moment');
 const { summary } = require('@actions/core/lib/summary');
 
 function createComment(results) {
@@ -11,7 +10,7 @@ function createComment(results) {
         const totalSecretsFound = data['total_secrets_found'] || 0;
         const testPassed = data.repo_scan ? "✅" : "❌";
         const differentResults = data['different_results'] || 0;  
-        const executionTime = data['execution_time'] ? `${data['execution_time']} ms` : 'N/A';  
+        const executionTime = data['execution_time'] ? `${(data['execution_time']).toFixed(3)} ms` : 'N/A';  
         
         message += `| ${repo} | ${totalSecretsFound} | ${differentResults} | ${testPassed} | ${executionTime} |\n`;
     }
