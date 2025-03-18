@@ -10,10 +10,11 @@ inputs:
 
 runs:
   using: "docker"
-  image: "ubuntu:latest"  # Apenas a imagem correta sem 'docker://'
+  image: "docker://ubuntu:latest"
+ 
   entrypoint: "/bin/bash"
   env:
-    INPUT_COMMIT_HASH: ${{ inputs.commit_hash }}  # Passando o commit hash como variável de ambiente
+    INPUT_COMMIT_HASH: ${{ inputs.commit_hash }}
   args:
     - "-c"
     - |
