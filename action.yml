@@ -16,6 +16,7 @@ runs:
      with:
       repository: checkmarx/2ms
       ref: dcbb5a70a5844d19550d916868398a4bab114138 
+       echo "Using commit hash: dcbb5a70a5844d19550d916868398a4bab114138"  # Exibindo o commit sendo utilizado
 
      # ref: ${{ inputs.commit_hash }}
 
