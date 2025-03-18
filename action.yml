@@ -10,10 +10,9 @@ inputs:
 
 runs:
   using: "composite"
-  shell: bash
   steps:
     - name: Checkout 2MS repository
-      uses: actions/checkout@vb4ffde65f46336ab88eb53be808477a3936bae11
+      uses: actions/checkout@v4
       with:
         repository: checkmarx/2ms
         ref: ${{ inputs.commit_hash }}  
@@ -22,26 +21,32 @@ runs:
       uses: actions/setup-go@v5
       with:
         go-version: "^1.22"  
+
     - name: Go mod tidy
       run: |
         go mod tidy
         git diff --exit-code
+      shell: bash 
 
     - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y python3 python3-pip git npm
         npm install
+      shell: bash 
 
     - name: Build 2MS binary
       run: |
         cd 2ms
         go build -o /tmp/2ms main.go
+      shell: bash  
 
     - name: Run 2MS Scan
       run: |
         /tmp/2ms
+      shell: bash  
 
     - name: Run entrypoint
       run: |
         python3 ./entrypoint.py
+      shell: bash 
