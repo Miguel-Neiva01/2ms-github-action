@@ -15,7 +15,7 @@ jobs:
       - name: Run 2ms 
         uses: miguel-neiva01/2ms-github-action@v2.0.29
         with:
-          commit_hash: dcbb5a70a5844d19550d916868398a4bab114138
+          commit_hash: fa250e1634b06a05444d40bdfe5235b19be09b54
 
       - name: Upload results
         uses: actions/upload-artifact@v4
