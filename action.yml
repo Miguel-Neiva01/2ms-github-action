@@ -10,6 +10,7 @@ inputs:
 
 runs:
   using: "composite"
+  shell: bash
   steps:
     - name: Checkout 2MS repository
       uses: actions/checkout@vb4ffde65f46336ab88eb53be808477a3936bae11
