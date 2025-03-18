@@ -16,8 +16,7 @@ runs:
       uses: actions/checkout@v4
       with:
         repository: checkmarx/2ms
-        ref: dcbb5a70a5844d19550d916868398a4bab114138
-        #ref: ${{ inputs.commit_hash }}  
+        ref: ${{ inputs.commit_hash }}  # Usando o commit_hash de input
 
     - name: Set up Go environment
       uses: actions/setup-go@v5
@@ -28,23 +27,27 @@ runs:
       run: |
         go mod tidy
         git diff --exit-code
+      shell: bash  # Especificando o shell
 
     - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y python3 python3-pip git npm
-        ls -alh 
         npm install
+      shell: bash  # Especificando o shell
 
     - name: Build 2MS binary
       run: |
         cd 2ms
         go build -o /tmp/2ms main.go
+      shell: bash  # Especificando o shell
 
     - name: Run 2MS Scan
       run: |
         /tmp/2ms
+      shell: bash  # Especificando o shell
 
     - name: Run entrypoint
       run: |
         python3 ./entrypoint.py
+      shell: bash  # Especificando o shell
