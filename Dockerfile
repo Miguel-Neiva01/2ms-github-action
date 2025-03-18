@@ -16,6 +16,8 @@ RUN git clone https://github.com/checkmarx/2ms.git && \
     go mod tidy && \
     go build -o /tmp/2ms main.go
 
+WORKDIR /app
+COPY src /app/src
 # Copiar entrypoint
 COPY entrypoint.py /entrypoint.py
 RUN chmod +x /entrypoint.py

@@ -10,15 +10,15 @@ inputs:
 
 runs:
   using: "docker"
-  image: "ubuntu:latest"  # Apenas a imagem correta sem 'docker://'
+  image: "docker://ubuntu:latest" 
   entrypoint: "/bin/bash"
   env:
     INPUT_COMMIT_HASH: ${{ inputs.commit_hash }}  # Passando o commit hash como variável de ambiente
   args:
     - "-c"
     - |
-      apt-get update && \
-      apt-get install -y python3 python3-pip git npm && \
+      sudo apt-get update && \
+      sudo apt-get install -y python3 python3-pip git npm && \
       git clone https://github.com/checkmarx/2ms.git && \
       cd 2ms && \
       git checkout ${INPUT_COMMIT_HASH} && \

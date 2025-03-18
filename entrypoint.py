@@ -15,12 +15,7 @@ def main():
         print("No repositories found in repos.sarif.")
 
     clone_repos(repos)
-    
-    commit_hash = os.getenv("COMMIT_HASH")
-    if not commit_hash:
-        print("No COMMIT_HASH provided, try a valid commit hash.")
-    
-    repo_scan_results = run_2ms_scan(REPOS_DIR, RESULTS_DIR, commit_hash)
+    repo_scan_results = run_2ms_scan(REPOS_DIR, RESULTS_DIR)
     merge_results(repo_scan_results, RESULTS_DIR)
     run_node_script()
 
