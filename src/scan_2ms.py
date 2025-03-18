@@ -18,7 +18,7 @@ def run_2ms_scan(REPOS_DIR, RESULTS_DIR):
 
         try:
             subprocess.run([
-                "/app/2ms", "filesystem",
+                "/tmp/2ms", "filesystem",
                 "--path", repo_path, 
                 "--ignore-on-exit", "results",
                 "--report-path", sarif_path
