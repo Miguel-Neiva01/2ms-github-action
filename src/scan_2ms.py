@@ -29,7 +29,7 @@ def run_2ms_scan(REPOS_DIR, RESULTS_DIR):
             success = False  
 
         end_time = time.time()  
-        duration = end_time - start_time 
+        duration = round(end_time - start_time, 3) 
 
         repo_scan_results[repo_name] = {
             "scan_status": success,
