@@ -15,10 +15,7 @@ runs:
      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
      with:
       repository: checkmarx/2ms
-      ref: dcbb5a70a5844d19550d916868398a4bab114138 
-       echo "Using commit hash: dcbb5a70a5844d19550d916868398a4bab114138"  # Exibindo o commit sendo utilizado
-
-     # ref: ${{ inputs.commit_hash }}
+      ref: ${{ inputs.commit_hash }}
 
    - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
      with:
