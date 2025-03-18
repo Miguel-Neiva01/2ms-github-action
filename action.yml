@@ -10,7 +10,7 @@ inputs:
 
 runs:
   using: "docker"
-  image: "ubuntu:latest"
+  image: "docker://ubuntu:latest" 
   entrypoint: "/bin/bash"
   env:
     INPUT_COMMIT_HASH: ${{ inputs.commit_hash }}  # Passando o commit hash como variável de ambiente
