@@ -12,16 +12,18 @@ runs:
   using: "docker"
   image: "ubuntu:latest"
   entrypoint: "/bin/bash"
+  env:
+    COMMIT_HASH: ${{ inputs.commit_hash }}  # Passando o commit hash como variável de ambiente
   args: |
     -c "
     # Install system dependencies
     sudo apt-get update
     sudo apt-get install -y python3 python3-pip git npm
-
-    # Clone the 2MS repository using the commit hash from the input
+    
+    # Clone the 2MS repository using the commit hash from the input environment variable
     git clone https://github.com/checkmarx/2ms.git
     cd 2ms
-    git checkout ${INPUT_COMMIT_HASH}  # Using the input commit hash
+    git checkout $COMMIT_HASH  # Usando a variável de ambiente para checkout
     
     # Install Go dependencies
     go mod tidy
