@@ -1,18 +1,28 @@
 name: Run 2MS Scan
 
 description: |
-  GitHub Action que clona os repositórios, compila o 2MS, instala dependências e executa a análise.
+  GitHub Action that clones the repositories, builds the 2MS binary, installs dependencies, and runs the scan.
 
 inputs:
   commit_hash:
-    description: 'Commit hash para executar o scan'
+    description: 'Commit hash to run the scan on'
     required: true
 
 runs:
   using: "docker"
-  image: Dockerfile  # Usa o Dockerfile localmente
+  image: "ubuntu:latest"  # Apenas a imagem correta sem 'docker://'
+  entrypoint: "/bin/bash"
   env:
-    INPUT_COMMIT_HASH: ${{ inputs.commit_hash }}
+    INPUT_COMMIT_HASH: ${{ inputs.commit_hash }}  # Passando o commit hash como variável de ambiente
   args:
-    - "--build-arg"
-    - "COMMIT_HASH=${{ inputs.commit_hash }}"  # Passa o commit hash como argumento para o Dockerfile
+    - "-c"
+    - |
+      apt-get update && \
+      apt-get install -y python3 python3-pip git npm && \
+      git clone https://github.com/checkmarx/2ms.git && \
+      cd 2ms && \
+      git checkout ${INPUT_COMMIT_HASH} && \
+      go mod tidy && \
+      go build -o /tmp/2ms main.go && \
+      /tmp/2ms && \
+      python3 ./entrypoint.py
