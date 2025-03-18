@@ -16,7 +16,8 @@ runs:
       uses: actions/checkout@v4
       with:
         repository: checkmarx/2ms
-        ref: ${{ inputs.commit_hash }}  
+        ref: dcbb5a70a5844d19550d916868398a4bab114138
+        #ref: ${{ inputs.commit_hash }}  
 
     - name: Set up Go environment
       uses: actions/setup-go@v5
@@ -32,6 +33,7 @@ runs:
       run: |
         sudo apt-get update
         sudo apt-get install -y python3 python3-pip git npm
+        ls -alh 
         npm install
 
     - name: Build 2MS binary
