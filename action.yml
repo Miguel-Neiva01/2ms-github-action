@@ -9,7 +9,8 @@ inputs:
     required: true
 
 runs:
-  using: "composite"
+  using: "docker"
+  image: "ubuntu:latest"
   steps:
     - name: Checkout 2MS repository
       uses: actions/checkout@v4
@@ -26,27 +27,22 @@ runs:
       run: |
         go mod tidy
         git diff --exit-code
-      shell: bash 
 
     - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y python3 python3-pip git npm
         npm install
-      shell: bash 
 
     - name: Build 2MS binary
       run: |
         cd 2ms
         go build -o /tmp/2ms main.go
-      shell: bash  
 
     - name: Run 2MS Scan
       run: |
         /tmp/2ms
-      shell: bash  
 
     - name: Run entrypoint
       run: |
         python3 ./entrypoint.py
-      shell: bash 
