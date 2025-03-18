@@ -1,5 +1,6 @@
 import os
 import subprocess
+import time
 
 def run_2ms_scan(REPOS_DIR, RESULTS_DIR):
     os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -11,6 +12,10 @@ def run_2ms_scan(REPOS_DIR, RESULTS_DIR):
         repo_path = os.path.join(REPOS_DIR, repo_name) 
         sarif_path = os.path.join(RESULTS_DIR, f"{repo_name}.sarif")  
 
+        print(f"Starting scan for {repo_name}...")
+
+        start_time = time.time()  
+
         try:
             subprocess.run([
                 "/app/2ms", "filesystem",
@@ -18,10 +23,17 @@ def run_2ms_scan(REPOS_DIR, RESULTS_DIR):
                 "--ignore-on-exit", "results",
                 "--report-path", sarif_path
             ], check=True)
-            repo_scan_results[repo_name] = True  
+            success = True  
         except subprocess.CalledProcessError as e:
             print(f"2ms scan failed for {repo_name}. Error: {e}. Marking test as failed.")
-            repo_scan_results[repo_name] = False  
+            success = False  
 
-    print(f"Scan results: {repo_scan_results}")
+        end_time = time.time()  
+        duration = end_time - start_time 
+
+        repo_scan_results[repo_name] = {
+            "scan_status": success,
+            "execution_time": duration
+        }
+
     return repo_scan_results

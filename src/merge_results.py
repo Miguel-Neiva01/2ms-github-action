@@ -23,12 +23,13 @@ def merge_results(repo_scan_results, RESULTS_DIR):
        
             different_results = len(data.get("runs", [{}])[0].get("tool", {}).get("driver", {}).get("rules", []))
             total_secrets_found = len(data.get("runs", [{}])[0].get("results", []))
-            repo_scan = repo_scan_results.get(repo_name, False)
+            repo_scan = repo_scan_results.get(repo_name,{"scan_status": False, "execution_time": 0})
 
             merged_data[repo_name] = {
-                'different-results': different_results,
-                'total-secrets-found': total_secrets_found,
-                'repo_scan': repo_scan,
+                'different_results': different_results,
+                'total_secrets_found': total_secrets_found,
+                'repo_scan': repo_scan["scan_status"],
+                'execution_time' : repo_scan["execution_time"]
             }
 
     
