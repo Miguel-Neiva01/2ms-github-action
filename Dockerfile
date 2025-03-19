@@ -13,6 +13,7 @@ WORKDIR /app
 # Copiar os scripts e código-fonte para dentro do container
 COPY entrypoint.sh /entrypoint.sh
 COPY main.py /main.py
+COPY repos.json /repos.json
 COPY src/ /app/src/
 
 # Garantir que os scripts têm permissões de execução
