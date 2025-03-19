@@ -10,14 +10,13 @@ RUN apt-get update && apt-get install -y \
 # Define a diretoria de trabalho dentro do container
 WORKDIR /app
 
-# Copiar os scripts e código-fonte para dentro do container
-COPY entrypoint.sh /entrypoint.sh
-COPY main.py /main.py
-COPY repos.json /repos.json
-COPY src/ /app/src/
-COPY create_summary/ /app/create_summary/
+RUN apk add --no-cache python3 py3-pip git npm
 
-# Garantir que os scripts têm permissões de execução
+WORKDIR /app
+
+COPY ./ /app/
+
+RUN chmod -R +x /app
 RUN chmod +x /entrypoint.sh /main.py
 
 # Define o script de entrada

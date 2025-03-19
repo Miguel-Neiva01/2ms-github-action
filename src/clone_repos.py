@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-REPOS_DIR = "repos"
+REPOS_DIR = "/app/repos"
 
 def clone_repos(repos):
     os.makedirs(REPOS_DIR, exist_ok=True)

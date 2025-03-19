@@ -6,8 +6,8 @@ from src.node_script import run_node_script
 from src.load_repos import load_repos
 import os
 
-RESULTS_DIR = "results"
-REPOS_DIR = "repos"
+RESULTS_DIR = "/app/results"
+REPOS_DIR = "/app/repos"
 
 def main():
     repos = load_repos()
