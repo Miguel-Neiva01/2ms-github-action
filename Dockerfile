@@ -15,6 +15,7 @@ COPY entrypoint.sh /entrypoint.sh
 COPY main.py /main.py
 COPY repos.json /repos.json
 COPY src/ /app/src/
+COPY create_summary/ /app/create_summary/
 
 # Garantir que os scripts têm permissões de execução
 RUN chmod +x /entrypoint.sh /main.py
