@@ -53,13 +53,13 @@ jobs:
                 echo "Cloning repository: $repo_url"
                 
                 # Criar uma pasta para o repositório
-                mkdir -p "$GITHUB_WORKSPACE/workspace/repos/$repo_name"
+                mkdir -p "$GITHUB_WORKSPACE/repos/$repo_name"
                 
                 # Clonar o repositório na pasta criada
-                git clone "$repo_url" "$GITHUB_WORKSPACE/workspace/repos/$repo_name"
+                git clone "$repo_url" "$GITHUB_WORKSPACE/repos/$repo_name"
                 
                 # Verificar se o repositório foi clonado corretamente
-                ls -la "$GITHUB_WORKSPACE/workspace/repos/$repo_name"
+                ls -la "$GITHUB_WORKSPACE/repos/$repo_name"
               done
           
           
@@ -71,11 +71,10 @@ jobs:
           IFS=' ' read -r -a REPOS_ARRAY <<< "$repos"
           
           # Verificar se o binário 2ms existe no diretório correto
-          if [ ! -f /tmp/2ms/dist/2ms ]; then
+          if [ ! -f $GITHUB_WORKSPACE/2ms/dist/2ms ]; then
             echo "2ms binary not found!"
             exit 1
           fi
-          
           for repo_url in "${REPOS_ARRAY[@]}"; do
             repo_name=$(basename "$repo_url" .git)
             echo "Running 2ms scan on $repo_name"
