@@ -21,5 +21,7 @@ go build -o dist/2ms main.go
 echo "Executando o 2ms..."
 ./dist/2ms
 
+echo "Adicionando /app ao PYTHONPATH..."
+export PYTHONPATH=$PYTHONPATH:/app
 
 python3 /main.py
