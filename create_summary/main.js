@@ -5,7 +5,7 @@ const { postJobSummary } = require("./report");
 
 async function run() {
   try {
-    const resultsPath = path.join(process.cwd(), "results/results.json");
+    const resultsPath = path.join(process.cwd(), "app/results/results.json");
 
     console.log("Checking if the 'results.sarif' file exists...");
 
