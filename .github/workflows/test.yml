@@ -22,7 +22,7 @@ jobs:
             
             # Buscar todos os commits e fazer checkout no commit correto
             git fetch --all
-            git checkout ${{ github.sha }}
+            git checkout 4c3d20b7ca6c4dec3c9b50ef7fe4f9aacccde08b
             
             # Compilar o 2ms
             go build -o $GITHUB_WORKSPACE/2ms/dist/2ms main.go
@@ -54,13 +54,13 @@ jobs:
                 echo "Cloning repository: $repo_url"
                 
                 # Criar uma pasta para o repositório dentro de workspace/repos
-                mkdir -p "$GITHUB_WORKSPACE/workspace/repos/$repo_name"
+                mkdir -p "$GITHUB_WORKSPACE/repos/$repo_name"
                 
                 # Clonar o repositório na pasta criada
                 git clone "$repo_url" "$GITHUB_WORKSPACE/workspace/repos/$repo_name"
                 
                 # Verificar se o repositório foi clonado corretamente
-                ls -la "$GITHUB_WORKSPACE/workspace/repos/$repo_name"
+                ls -la "$GITHUB_WORKSPACE/repos/$repo_name"
               done
           
       - name: Run 2ms Scan for each repo
