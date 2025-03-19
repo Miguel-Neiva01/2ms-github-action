@@ -1,29 +1,11 @@
-name: Run 2MS Scan
-
-description: |
-  GitHub Action that clones the repositories, builds the 2MS binary, installs dependencies, and runs the scan.
-
+name: "Go Build Action"
+description: "Faz o clone de um repositório e compila um projeto em Go"
 inputs:
   commit_hash:
-    description: 'Commit hash to run the scan on'
+    description: "O hash do commit a usar"
     required: true
-
 runs:
   using: "docker"
-  image: "ubuntu:latest"  # Apenas a imagem correta sem 'docker://'
-  entrypoint: "/bin/bash"
-  env:
-    INPUT_COMMIT_HASH: ${{ inputs.commit_hash }}  # Passando o commit hash como variável de ambiente
+  image: "Dockerfile"
   args:
-    - "-c"
-    - |
-      apt-get update && \
-      apt-get install -y python3 python3-pip git npm && \
-      git clone https://github.com/checkmarx/2ms.git && \
-      cd 2ms && \
-      git fetch --all && \
-      git checkout ${INPUT_COMMIT_HASH} && \
-      go mod tidy && \
-      go build -o /tmp/2ms main.go && \
-      /tmp/2ms && \
-      python3 ./entrypoint.py
+    - ${{ inputs.commit_hash }}

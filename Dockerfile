@@ -1,26 +1,22 @@
-FROM ubuntu:latest
+FROM golang:latest
 
-# Instalar dependências
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip git npm golang && \
-    apt-get clean
+# Instalar pacotes adicionais: git, curl, Python e Node.js
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    python3 python3-pip \
+    nodejs npm
 
-
-# Adicionar um argumento para o commit hash
-ARG COMMIT_HASH
-
-# Clonar e compilar o 2MS com o commit específico
-RUN git clone https://github.com/checkmarx/2ms.git && \
-    cd 2ms && \
-    git checkout ${COMMIT_HASH} && \
-    go mod tidy && \
-    go build -o /tmp/2ms main.go
-
+# Define a diretoria de trabalho dentro do container
 WORKDIR /app
-COPY src /app/src
-# Copiar entrypoint
-COPY entrypoint.py /entrypoint.py
-RUN chmod +x /entrypoint.py
 
-# Definir entrypoint
-ENTRYPOINT ["python3", "/entrypoint.py"]
+# Copiar os scripts e código-fonte para dentro do container
+COPY entrypoint.sh /entrypoint.sh
+COPY main.py /main.py
+COPY src/ /app/src/
+
+# Garantir que os scripts têm permissões de execução
+RUN chmod +x /entrypoint.sh /main.py
+
+# Define o script de entrada
+ENTRYPOINT ["/entrypoint.sh"]
