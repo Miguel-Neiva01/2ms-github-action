@@ -21,6 +21,7 @@ runs:
       apt-get install -y python3 python3-pip git npm && \
       git clone https://github.com/checkmarx/2ms.git && \
       cd 2ms && \
+      git fetch --all && \
       git checkout ${INPUT_COMMIT_HASH} && \
       go mod tidy && \
       go build -o /tmp/2ms main.go && \
